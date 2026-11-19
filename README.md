@@ -41,3 +41,9 @@ pip install -r requirements.txt
 python predict.py --text "کیفیتش خوبه ولی قیمتش بالاست." --device cpu
 python predict.py --demo --device cpu
 ```
+
+[Complete submission and model files](https://github.com/emadnemati/digikala-review-analysis/releases)
+
+[Public dataset](https://huggingface.co/datasets/RadeAI/Digikala_comments_products/tree/main)
+
+[ParsBERT model card and license](https://huggingface.co/HooshvareLab/bert-fa-base-uncased)
