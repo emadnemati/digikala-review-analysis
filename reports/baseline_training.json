@@ -1,0 +1,43 @@
+{
+  "sklearn_version": "1.6.1",
+  "logistic_regression": {
+    "solver": "saga",
+    "class_weight": "balanced",
+    "C": 1.0,
+    "tol": 0.001,
+    "max_iter": 60,
+    "random_state": 2026
+  },
+  "heads": {
+    "recommendation_status": {
+      "training_rows": 2946171,
+      "class_counts": {
+        "recommended": 2329888,
+        "not_recommended": 283228,
+        "no_idea": 333055
+      },
+      "iterations": 60,
+      "converged": false,
+      "convergence_warnings": [
+        "The max_iter was reached which means the coef_ did not converge"
+      ],
+      "training_seconds": 232.3,
+      "artifact": "tfidf_recommendation_status.joblib"
+    },
+    "rating_band": {
+      "training_rows": 3570759,
+      "class_counts": {
+        "low": 627856,
+        "medium": 607914,
+        "high": 2334989
+      },
+      "iterations": 60,
+      "converged": false,
+      "convergence_warnings": [
+        "The max_iter was reached which means the coef_ did not converge"
+      ],
+      "training_seconds": 258.1,
+      "artifact": "tfidf_rating_band.joblib"
+    }
+  }
+}

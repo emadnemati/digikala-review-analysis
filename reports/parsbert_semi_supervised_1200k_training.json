@@ -1,0 +1,49 @@
+{
+  "parent_epoch": 4,
+  "additional_epochs": 1,
+  "seed": 2031,
+  "settings": {
+    "model": "HooshvareLab/bert-fa-base-uncased",
+    "revision": "a04aa40c97bcdde570ae11986a534542c2995a62",
+    "seed": 2026,
+    "sample_rule": "Sort by the first 16 hex digits of SHA-256('2026|' + id), then by id.",
+    "train_rows": 1200000,
+    "validation_rows_for_checkpoint_selection": 20000,
+    "max_length": 96,
+    "batch_size": 64,
+    "gradient_accumulation": 1,
+    "encoder_lr": 2e-05,
+    "head_lr": 0.0002,
+    "max_epochs": 3,
+    "early_stopping_patience": 1,
+    "checkpoint_metric": "Mean of recommendation and rating-band validation macro F1",
+    "total_parameters": 162255366,
+    "trainable_parameters": 7092486,
+    "recommendation_weights": [
+      0.4208683967590332,
+      3.544489622116089,
+      2.9254114627838135
+    ],
+    "rating_band_weights": [
+      1.8925951719284058,
+      1.9623234272003174,
+      0.509677529335022
+    ]
+  },
+  "supervised_rows": 1200000,
+  "pseudo_labeled_rows": 279363,
+  "total_training_rows": 1479363,
+  "pseudo_threshold": 0.9,
+  "pseudo_targets_used": [
+    "recommendation_status"
+  ],
+  "train": {
+    "loss": 1.4344236337926113
+  },
+  "validation": {
+    "loss": 1.5131716987195487,
+    "recommendation_macro_f1": 0.6657204478068551,
+    "rating_macro_f1": 0.5769398619393268
+  },
+  "seconds": 1986.0
+}

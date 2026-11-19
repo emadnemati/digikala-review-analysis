@@ -1,0 +1,73 @@
+{
+  "settings": {
+    "model": "HooshvareLab/bert-fa-base-uncased",
+    "revision": "a04aa40c97bcdde570ae11986a534542c2995a62",
+    "seed": 2026,
+    "sample_rule": "Sort by the first 16 hex digits of SHA-256('2026|' + id), then by id.",
+    "train_rows": 120000,
+    "validation_rows_for_checkpoint_selection": 20000,
+    "max_length": 96,
+    "batch_size": 64,
+    "gradient_accumulation": 1,
+    "encoder_lr": 2e-05,
+    "head_lr": 0.0002,
+    "max_epochs": 3,
+    "early_stopping_patience": 1,
+    "checkpoint_metric": "Mean of recommendation and rating-band validation macro F1",
+    "total_parameters": 162255366,
+    "trainable_parameters": 7092486,
+    "recommendation_weights": [
+      0.4208683967590332,
+      3.544489622116089,
+      2.9254114627838135
+    ],
+    "rating_band_weights": [
+      1.8925951719284058,
+      1.9623234272003174,
+      0.509677529335022
+    ]
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train": {
+        "loss": 1.7336604166666667
+      },
+      "validation": {
+        "loss": 1.6058918035830172,
+        "recommendation_macro_f1": 0.6412192710436136,
+        "rating_macro_f1": 0.5451931743347821
+      },
+      "selection_score": 0.5932062226891979,
+      "seconds": 170.8
+    },
+    {
+      "epoch": 2,
+      "train": {
+        "loss": 1.6272200520833333
+      },
+      "validation": {
+        "loss": 1.5990768286366812,
+        "recommendation_macro_f1": 0.6515301866963398,
+        "rating_macro_f1": 0.5560291358389305
+      },
+      "selection_score": 0.6037796612676352,
+      "seconds": 172.1
+    },
+    {
+      "epoch": 3,
+      "train": {
+        "loss": 1.5855028645833333
+      },
+      "validation": {
+        "loss": 1.5766053611097244,
+        "recommendation_macro_f1": 0.6542739835496828,
+        "rating_macro_f1": 0.5533878728394163
+      },
+      "selection_score": 0.6038309281945495,
+      "seconds": 172.2
+    }
+  ],
+  "best_epoch": 3,
+  "best_score": 0.6038309281945495
+}

@@ -1,0 +1,134 @@
+{
+  "total_rows": 925197,
+  "heads": {
+    "recommendation_status": {
+      "evaluated_rows": 789770,
+      "missing_target_rows": 135427,
+      "metrics": {
+        "recommended": {
+          "precision": 0.9635613756767771,
+          "recall": 0.8480021390785311,
+          "f1-score": 0.9020960082845638,
+          "support": 624568.0
+        },
+        "not_recommended": {
+          "precision": 0.6448383037759591,
+          "recall": 0.7893392662023934,
+          "f1-score": 0.7098091675348044,
+          "support": 75961.0
+        },
+        "no_idea": {
+          "precision": 0.34963941735826487,
+          "recall": 0.5764166694680696,
+          "f1-score": 0.43526086882943255,
+          "support": 89241.0
+        },
+        "accuracy": 0.8116717525355484,
+        "macro avg": {
+          "precision": 0.6526796989370004,
+          "recall": 0.7379193582496647,
+          "f1-score": 0.6823886815496002,
+          "support": 789770.0
+        },
+        "weighted avg": {
+          "precision": 0.8635353772886889,
+          "recall": 0.8116717525355484,
+          "f1-score": 0.8308510440667436,
+          "support": 789770.0
+        }
+      },
+      "balanced_accuracy": 0.7379193582496647,
+      "confusion_matrix": {
+        "class_order": [
+          "recommended",
+          "not_recommended",
+          "no_idea"
+        ],
+        "counts": [
+          [
+            529635,
+            12606,
+            82327
+          ],
+          [
+            2646,
+            59959,
+            13356
+          ],
+          [
+            17383,
+            20418,
+            51440
+          ]
+        ]
+      }
+    },
+    "rating_band": {
+      "evaluated_rows": 925196,
+      "missing_target_rows": 1,
+      "metrics": {
+        "low": {
+          "precision": 0.5729257641921397,
+          "recall": 0.4853228005600631,
+          "f1-score": 0.5254983482181279,
+          "support": 163553.0
+        },
+        "medium": {
+          "precision": 0.3751528536557015,
+          "recall": 0.5043883776755351,
+          "f1-score": 0.4302759950192378,
+          "support": 159968.0
+        },
+        "high": {
+          "precision": 0.8189217181967052,
+          "recall": 0.7779548759712469,
+          "f1-score": 0.7979128080862492,
+          "support": 601675.0
+        },
+        "accuracy": 0.6789242495644167,
+        "macro avg": {
+          "precision": 0.5890001120148488,
+          "recall": 0.5892220180689484,
+          "f1-score": 0.5845623837745383,
+          "support": 925196.0
+        },
+        "weighted avg": {
+          "precision": 0.6987069810078241,
+          "recall": 0.6789242495644167,
+          "f1-score": 0.6861912616598547,
+          "support": 925196.0
+        }
+      },
+      "balanced_accuracy": 0.5892220180689484,
+      "confusion_matrix": {
+        "class_order": [
+          "low",
+          "medium",
+          "high"
+        ],
+        "counts": [
+          [
+            79376,
+            35199,
+            48978
+          ],
+          [
+            24760,
+            80686,
+            54522
+          ],
+          [
+            34409,
+            99190,
+            468076
+          ]
+        ]
+      },
+      "mean_absolute_ordinal_distance": 0.411204760937142
+    }
+  },
+  "split": "validation",
+  "checkpoint_epoch": 5,
+  "continuation_training_rows": 3000000,
+  "checkpoint_directory": "parsbert_supervised_3000k"
+}

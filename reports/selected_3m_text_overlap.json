@@ -1,0 +1,6 @@
+{
+  "training_rows": 3000000,
+  "test_rows": 919675,
+  "test_rows_with_text_in_selected_train": 310041,
+  "test_overlap_pct": 33.712017832386444
+}

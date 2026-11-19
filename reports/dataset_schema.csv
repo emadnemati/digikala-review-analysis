@@ -1,0 +1,16 @@
+column,inferred_type
+id,NUMBER
+title,STRING
+body,STRING
+created_at,STRING
+rate,NUMBER
+recommendation_status,STRING
+is_buyer,bool
+product_id,NUMBER
+advantages,STRING
+disadvantages,STRING
+likes,NUMBER
+dislikes,NUMBER
+seller_title,STRING
+seller_code,STRING
+true_to_size_rate,STRING

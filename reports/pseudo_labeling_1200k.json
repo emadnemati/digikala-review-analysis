@@ -1,0 +1,18 @@
+{
+  "checkpoint_epoch": 4,
+  "checkpoint_sha256": "d7eec03f4c61504f0af1d71604eee02c6dcecaf3918114b9a64380e533f1cc68",
+  "pool_sha256": "06c8560127405a33cb5e1104104dfd561d544b699a348757bbba42bd4e497579",
+  "threshold": 0.9,
+  "batch_size": 256,
+  "chunk_rows": 25000,
+  "max_length": 96,
+  "source_pool": "train_pseudo_unlabeled.csv",
+  "scored_rows": 736540,
+  "accepted_rows": 279363,
+  "accepted_pct": 37.92910093138187,
+  "accepted_by_class": {
+    "recommended": 256238,
+    "not_recommended": 22594,
+    "no_idea": 531
+  }
+}

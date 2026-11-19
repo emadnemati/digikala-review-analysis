@@ -1,0 +1,15 @@
+{
+  "source_pool": "train_pseudo_unlabeled.csv",
+  "supervised_checkpoint_epoch": 3,
+  "threshold": 0.9,
+  "scored_rows": 736540,
+  "accepted_rows": 296075,
+  "accepted_pct": 40.198088359084366,
+  "accepted_by_class": {
+    "recommended": 273300,
+    "not_recommended": 20501,
+    "no_idea": 2274
+  },
+  "inference_batch_size": 256,
+  "elapsed_seconds": 996.3
+}

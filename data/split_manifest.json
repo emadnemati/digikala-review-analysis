@@ -1,0 +1,84 @@
+{
+  "split_seed": 2026,
+  "split_strategy": {
+    "group_by": "product_id",
+    "bucket": "int(sha256('2026|' + product_id)[:16], 16) % 10000",
+    "train": "0–6999",
+    "validation": "7000–8499",
+    "test": "8500–9999"
+  },
+  "mask_seed": "digikala-semi-supervised-v1",
+  "mask_rate": 0.2,
+  "mask_strategy": "Per labeled train class, sort by SHA-256 prefix then id; take floor(0.20 * class_count).",
+  "masked_per_class": {
+    "no_idea": {
+      "labeled_train": 416318,
+      "masked": 83263
+    },
+    "not_recommended": {
+      "labeled_train": 354034,
+      "masked": 70806
+    },
+    "recommended": {
+      "labeled_train": 2912359,
+      "masked": 582471
+    }
+  },
+  "rating_bands": {
+    "low": {
+      "interval": "[0, 2.5)",
+      "encoding": 0
+    },
+    "medium": {
+      "interval": "[2.5, 4)",
+      "encoding": 1
+    },
+    "high": {
+      "interval": "[4, 5]",
+      "encoding": 2
+    }
+  },
+  "split_rows_before_masking": {
+    "test": 919675,
+    "train": 4307310,
+    "validation": 925197
+  },
+  "exported_file_rows": {
+    "train_supervised.csv": 3570765,
+    "train_pseudo_unlabeled.csv": 736540,
+    "natural_unlabeled.csv": 624586,
+    "validation.csv": 925197,
+    "test.csv": 919675
+  },
+  "exact_raw_text_overlap_before_masking": {
+    "texts_shared_train_validation": 77642,
+    "texts_shared_train_test": 77913,
+    "texts_shared_validation_test": 40618,
+    "validation_rows_with_text_in_train": 322584,
+    "test_rows_with_text_in_train": 320864
+  },
+  "source_file": {
+    "repository": "RadeAI/Digikala_comments_products",
+    "filename": "digikala-comments.csv",
+    "bytes": 1278526959,
+    "sha256": "c7a8aa3020334fde8ec24944576a03fe5785e6fe12cd01042f5836632ddf8297"
+  },
+  "selected_3m_text_overlap": {
+    "training_rows": 3000000,
+    "test_rows": 919675,
+    "test_rows_with_text_in_selected_train": 310041,
+    "test_overlap_pct": 33.712017832386444
+  },
+  "cleaning_policy": {
+    "missing_text_markers": [
+      "",
+      "nan"
+    ],
+    "multiple_texts_for_same_id": "Exclude the complete ID group",
+    "same_text_for_same_id": "Merge to one row",
+    "conflicting_recommendations": "Mask recommendation target",
+    "conflicting_rating_bands": "Mask rating-band target",
+    "invalid_rate": "Mask rating-band target",
+    "training_rows_without_either_target": "Exclude from train_supervised"
+  }
+}

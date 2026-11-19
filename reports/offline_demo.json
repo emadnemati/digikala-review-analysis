@@ -1,0 +1,366 @@
+[
+  {
+    "model_version": "parsbert-3000k-v1",
+    "text": "خوبه",
+    "normalized_text": "خوبه",
+    "tfidf": {
+      "recommendation_status": {
+        "label": "recommended",
+        "probabilities": {
+          "recommended": 0.9831704497337341,
+          "not_recommended": 0.00016355175466742367,
+          "no_idea": 0.016666002571582794
+        },
+        "explanation": {
+          "runner_up": "no_idea",
+          "bias_margin": 2.2756295204162598,
+          "strongest_terms": [
+            {
+              "term": "خوبه",
+              "logit_margin_contribution": 1.8017821311950684
+            }
+          ],
+          "positive_contribution_favors": "recommended"
+        }
+      },
+      "rating_band": {
+        "label": "high",
+        "probabilities": {
+          "low": 0.08964178711175919,
+          "medium": 0.39367803931236267,
+          "high": 0.516680121421814
+        },
+        "explanation": {
+          "runner_up": "medium",
+          "bias_margin": -0.1773482859134674,
+          "strongest_terms": [
+            {
+              "term": "خوبه",
+              "logit_margin_contribution": 0.4492388963699341
+            }
+          ],
+          "positive_contribution_favors": "high"
+        }
+      }
+    },
+    "parsbert": {
+      "recommendation_status": {
+        "label": "recommended",
+        "probabilities": {
+          "recommended": 0.7350962162017822,
+          "not_recommended": 0.00943024642765522,
+          "no_idea": 0.2554735243320465
+        }
+      },
+      "rating_band": {
+        "label": "high",
+        "probabilities": {
+          "low": 0.0799303874373436,
+          "medium": 0.34459546208381653,
+          "high": 0.5754741430282593
+        }
+      }
+    },
+    "token_count_before_truncation": 3,
+    "token_count_used": 3,
+    "truncated": false,
+    "latency_ms": 455.33
+  },
+  {
+    "model_version": "parsbert-3000k-v1",
+    "text": "معمولی بود، هنوز مطمئن نیستم ارزش خرید داشته باشه.",
+    "normalized_text": "معمولی بود، هنوز مطمئن نیستم ارزش خرید داشته باشه.",
+    "tfidf": {
+      "recommendation_status": {
+        "label": "no_idea",
+        "probabilities": {
+          "recommended": 0.20737268030643463,
+          "not_recommended": 0.1192258894443512,
+          "no_idea": 0.673401415348053
+        },
+        "explanation": {
+          "runner_up": "recommended",
+          "bias_margin": -2.2756295204162598,
+          "strongest_terms": [
+            {
+              "term": "نیستم",
+              "logit_margin_contribution": 2.816856622695923
+            },
+            {
+              "term": "معمولی",
+              "logit_margin_contribution": 1.0151726007461548
+            },
+            {
+              "term": "ارزش",
+              "logit_margin_contribution": -0.8121413588523865
+            },
+            {
+              "term": "خرید",
+              "logit_margin_contribution": -0.559852123260498
+            },
+            {
+              "term": "مطمئن",
+              "logit_margin_contribution": 0.5095670223236084
+            }
+          ],
+          "positive_contribution_favors": "no_idea"
+        }
+      },
+      "rating_band": {
+        "label": "medium",
+        "probabilities": {
+          "low": 0.1235695406794548,
+          "medium": 0.8302742838859558,
+          "high": 0.04615619778633118
+        },
+        "explanation": {
+          "runner_up": "low",
+          "bias_margin": -0.1149158775806427,
+          "strongest_terms": [
+            {
+              "term": "مطمئن",
+              "logit_margin_contribution": 1.170074701309204
+            },
+            {
+              "term": "معمولی",
+              "logit_margin_contribution": 0.9286381602287292
+            },
+            {
+              "term": "نیستم",
+              "logit_margin_contribution": -0.2977602481842041
+            },
+            {
+              "term": "باشه",
+              "logit_margin_contribution": 0.13307154178619385
+            },
+            {
+              "term": "داشته",
+              "logit_margin_contribution": 0.059346359223127365
+            }
+          ],
+          "positive_contribution_favors": "medium"
+        }
+      }
+    },
+    "parsbert": {
+      "recommendation_status": {
+        "label": "no_idea",
+        "probabilities": {
+          "recommended": 0.04299338907003403,
+          "not_recommended": 0.011271537281572819,
+          "no_idea": 0.9457350969314575
+        }
+      },
+      "rating_band": {
+        "label": "medium",
+        "probabilities": {
+          "low": 0.046539951115846634,
+          "medium": 0.9151751399040222,
+          "high": 0.03828489035367966
+        }
+      }
+    },
+    "token_count_before_truncation": 13,
+    "token_count_used": 13,
+    "truncated": false,
+    "latency_ms": 123.97
+  },
+  {
+    "model_version": "parsbert-3000k-v1",
+    "text": "بعد از دو روز خراب شد و اصلاً پیشنهاد نمی‌کنم.",
+    "normalized_text": "بعد از دو روز خراب شد و اصلاً پیشنهاد نمی‌کنم.",
+    "tfidf": {
+      "recommendation_status": {
+        "label": "not_recommended",
+        "probabilities": {
+          "recommended": 0.0002758535847533494,
+          "not_recommended": 0.9992156028747559,
+          "no_idea": 0.0005084467120468616
+        },
+        "explanation": {
+          "runner_up": "no_idea",
+          "bias_margin": 2.4606680870056152,
+          "strongest_terms": [
+            {
+              "term": "نمی‌کنم",
+              "logit_margin_contribution": 2.600554943084717
+            },
+            {
+              "term": "اصلا",
+              "logit_margin_contribution": 2.2345104217529297
+            },
+            {
+              "term": "شد",
+              "logit_margin_contribution": -0.6661179661750793
+            },
+            {
+              "term": "بعد",
+              "logit_margin_contribution": 0.558758020401001
+            },
+            {
+              "term": "خراب",
+              "logit_margin_contribution": 0.5174973011016846
+            }
+          ],
+          "positive_contribution_favors": "not_recommended"
+        }
+      },
+      "rating_band": {
+        "label": "low",
+        "probabilities": {
+          "low": 0.9142032861709595,
+          "medium": 0.08193987607955933,
+          "high": 0.0038568908348679543
+        },
+        "explanation": {
+          "runner_up": "medium",
+          "bias_margin": 0.1149158775806427,
+          "strongest_terms": [
+            {
+              "term": "اصلا",
+              "logit_margin_contribution": 1.1042455434799194
+            },
+            {
+              "term": "خراب",
+              "logit_margin_contribution": 0.5956519246101379
+            },
+            {
+              "term": "روز",
+              "logit_margin_contribution": 0.18939673900604248
+            },
+            {
+              "term": "نمی‌کنم",
+              "logit_margin_contribution": 0.14957311749458313
+            },
+            {
+              "term": "پیشنهاد",
+              "logit_margin_contribution": 0.14010463654994965
+            }
+          ],
+          "positive_contribution_favors": "low"
+        }
+      }
+    },
+    "parsbert": {
+      "recommendation_status": {
+        "label": "not_recommended",
+        "probabilities": {
+          "recommended": 0.0003645551623776555,
+          "not_recommended": 0.9922295212745667,
+          "no_idea": 0.007405928801745176
+        }
+      },
+      "rating_band": {
+        "label": "low",
+        "probabilities": {
+          "low": 0.9522842168807983,
+          "medium": 0.045926533639431,
+          "high": 0.001789249712601304
+        }
+      }
+    },
+    "token_count_before_truncation": 13,
+    "token_count_used": 13,
+    "truncated": false,
+    "latency_ms": 120.69
+  },
+  {
+    "model_version": "parsbert-3000k-v1",
+    "text": "کیفیت ساخت خوبه ولی باتری زود تموم میشه و قیمتش بالاست.",
+    "normalized_text": "کیفیت ساخت خوبه ولی باتری زود تموم میشه و قیمتش بالاست.",
+    "tfidf": {
+      "recommendation_status": {
+        "label": "recommended",
+        "probabilities": {
+          "recommended": 0.6148367524147034,
+          "not_recommended": 0.1198594868183136,
+          "no_idea": 0.26530370116233826
+        },
+        "explanation": {
+          "runner_up": "no_idea",
+          "bias_margin": 2.2756295204162598,
+          "strongest_terms": [
+            {
+              "term": "زود",
+              "logit_margin_contribution": -0.670725405216217
+            },
+            {
+              "term": "باتری",
+              "logit_margin_contribution": -0.5978495478630066
+            },
+            {
+              "term": "بالاست",
+              "logit_margin_contribution": -0.5481568574905396
+            },
+            {
+              "term": "تموم",
+              "logit_margin_contribution": -0.4986170828342438
+            },
+            {
+              "term": "ولی",
+              "logit_margin_contribution": -0.48001477122306824
+            }
+          ],
+          "positive_contribution_favors": "recommended"
+        }
+      },
+      "rating_band": {
+        "label": "medium",
+        "probabilities": {
+          "low": 0.13392335176467896,
+          "medium": 0.5807781219482422,
+          "high": 0.28529855608940125
+        },
+        "explanation": {
+          "runner_up": "high",
+          "bias_margin": 0.1773482859134674,
+          "strongest_terms": [
+            {
+              "term": "بالاست",
+              "logit_margin_contribution": 0.4373149871826172
+            },
+            {
+              "term": "زود",
+              "logit_margin_contribution": 0.33776018023490906
+            },
+            {
+              "term": "ولی",
+              "logit_margin_contribution": 0.11653448641300201
+            },
+            {
+              "term": "و",
+              "logit_margin_contribution": -0.09295699745416641
+            },
+            {
+              "term": "کیفیت",
+              "logit_margin_contribution": -0.08697877079248428
+            }
+          ],
+          "positive_contribution_favors": "medium"
+        }
+      }
+    },
+    "parsbert": {
+      "recommendation_status": {
+        "label": "no_idea",
+        "probabilities": {
+          "recommended": 0.1357782483100891,
+          "not_recommended": 0.11495323479175568,
+          "no_idea": 0.7492685317993164
+        }
+      },
+      "rating_band": {
+        "label": "medium",
+        "probabilities": {
+          "low": 0.16548538208007812,
+          "medium": 0.6715278625488281,
+          "high": 0.16298680007457733
+        }
+      }
+    },
+    "token_count_before_truncation": 14,
+    "token_count_used": 14,
+    "truncated": false,
+    "latency_ms": 135.56
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "split": "test",
+  "sample_rows": 20000,
+  "sample_seed": "error-audit-2026",
+  "sample_rule": "First rows ordered by SHA-256(seed + '|' + id) prefix, then id",
+  "selected_cases": 24,
+  "selection": "Purposeful coverage of actual classes and candidate error flags",
+  "flags_require_manual_review": true
+}

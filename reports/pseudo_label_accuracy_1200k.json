@@ -1,0 +1,48 @@
+{
+  "parent_checkpoint_sha256": "d7eec03f4c61504f0af1d71604eee02c6dcecaf3918114b9a64380e533f1cc68",
+  "threshold": 0.9,
+  "audited_rows": 279363,
+  "correct_rows": 274266,
+  "accuracy": 0.9817549210167417,
+  "by_predicted_class": {
+    "recommended": {
+      "accepted": 256238,
+      "correct": 253468,
+      "precision": 0.9891897376657639
+    },
+    "not_recommended": {
+      "accepted": 22594,
+      "correct": 20437,
+      "precision": 0.9045321766840754
+    },
+    "no_idea": {
+      "accepted": 531,
+      "correct": 361,
+      "precision": 0.67984934086629
+    }
+  },
+  "confusion_matrix": {
+    "class_order": [
+      "recommended",
+      "not_recommended",
+      "no_idea"
+    ],
+    "counts": [
+      [
+        253468,
+        630,
+        153
+      ],
+      [
+        509,
+        20437,
+        17
+      ],
+      [
+        2261,
+        1527,
+        361
+      ]
+    ]
+  }
+}
