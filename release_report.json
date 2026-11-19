@@ -330,17 +330,24 @@
   },
   "documentation_revision": {
     "version": "1.1.0",
-    "revised_at": "2026-11-20T00:37:33+03:30",
+    "revised_at": "2026-11-19T21:45:10+00:00",
     "reference_structure": "IncompleteReport.pdf (supplied table of contents)",
     "reviewed_error_cases": 32,
     "report_pdf": "reports/final_report.pdf",
     "document_sha256": {
-      "README.md": "2a770fd70dc5b08c8ce5dff2b96a0b979c67a01d0aa74386a7855215a1e4498e",
-      "reports/final_report.md": "d37bab03f1581f50f678ea6aee7692a1a2d84289daf472589778deb8b75abf2b",
-      "reports/final_report.pdf": "8c43a35dd6b6daa364d1fefeb53b1d3b37ff7158006d63df69b61e7f5266be46",
-      "reports/error_analysis.md": "371087d1a20a9974934dd858e71c36425695fe641909210c5ef4e6b163f796d5"
+      "README.md": "d2225b649beace726debec8f7a2d228e8a8d80df7e2d941ef8a4b61b1d30315d",
+      "reports/final_report.md": "d54157b6d6b246cc4ee126f17a9982459eaeb93e089fc01f188f26dd91ca686f",
+      "reports/error_analysis.md": "28cba2100338050880ddf41186abe89087684b1fae368047fbb0da34d2311e34",
+      "reports/final_report.pdf": "d172788a08bd0f62eb221e35d99896e86d037773da66a6828dd0fb72df343028"
     },
     "packaging_preserves_reviewed_documents": true,
-    "model_or_training_changes": false
+    "model_or_training_changes": false,
+    "presentation_revision": {
+      "font": "Vazirmatn",
+      "zero_width_non_joiners_in_markdown": 0,
+      "narrative_punctuation": "removed",
+      "numerical_results_and_commands": "preserved",
+      "delivery": "repository changes only"
+    }
   }
 }
