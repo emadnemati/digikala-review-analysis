@@ -1,49 +1,33 @@
-> # تحلیل نظرهای دیجی‌کالا
+> # تحلیل نظرات دیجی‌کالا
 >
-> این پروژه فقط از متن نظر، پیشنهاد خرید و بازهٔ امتیاز را پیش‌بینی می‌کند.
-> مدل منتخب `ParsBERT` سه‌میلیونی است. اسکریپت هر دو مدل پایه و منتخب را اجرا می‌کند.
+> پروژهٔ طبقه‌بندی پیشنهاد خرید و بازهٔ امتیاز، فقط از متن نظر. مدل پایه `TF-IDF` و مدل منتخب `ParsBERT` آموزش‌دیده روی ۳ میلیون نظر هستند.
 >
-> ابتدا کتابخانه‌های `requirements.txt` را نصب کن.
-> سپس `predict.py` را با متن نظر اجرا کن.
-> گزینهٔ `--demo` چهار مثال آماده را اجرا می‌کند.
-> مدل از فایل‌های داخل پوشهٔ `models` بارگذاری می‌شود.
-> نسخهٔ پایتون محیط ثبت‌شده `3.13.16` است.
+> [گزارش نهایی](reports/final_report.pdf) شرح روش، نتایج و محدودیت‌ها را دارد. [نسخهٔ متنی گزارش](reports/final_report.md) و [تحلیل ۳۲ خطا](reports/error_analysis.md) نیز موجودند.
 >
-> پوشهٔ `reports` گزارش نهایی، تحلیل 32 خطا، معیارها، نمودار و مثال‌های اجرا را دارد.
-> پوشهٔ `data` پنج فایل تقسیم و `split_manifest.json` را دارد.
-> پوشهٔ `artifacts` چک‌پوینت‌های آزمایش‌ها را نگه می‌دارد.
+> ## اجرا
 >
-> نوت‌بوک‌ها به این ترتیب هستند:
->
-> ۱. `01_descriptive_analysis.ipynb` برای تحلیل و آماده‌سازی، با `CPU`
-> ۲. `02_baselines.ipynb` برای مدل پایه، با `CPU`
-> ۳. `03_transfer_learning_finetuning.ipynb` برای تنظیم مدل، با `T4 GPU`
-> ۴. `04_semi_supervised.ipynb` برای نیمه‌نظارتی، ارزیابی و تحویل، با `T4 GPU`
->
-> نوت‌بوک‌ها برای مسیر موقت `/content` و پوشهٔ `digikala-project-3` در
-> `Google Drive` نوشته شده‌اند.
-> برای بازتولید در کولب، محتوای بسته را در همین پوشهٔ درایو قرار بده و کتابخانه‌های ثبت‌شده را نصب کن.
->
-> نوت‌بوک‌ها خروجی‌های اجراهای تعاملی این پروژه را دارند.
-> اجرای یکپارچهٔ هر چهار نوت‌بوک از صفر در این مرحله بررسی نشده است.
-> آزمون تأییدشدهٔ بسته، اجرای آفلاین اسکریپت روی چهار مثال با `CPU` است.
->
->
-> ## نسخهٔ مخزن و بستهٔ کامل
->
-> کد، نوت‌بوک‌ها و گزارش‌ها در مخزن `Git` نگهداری می‌شوند.
-> داده‌ها، پایگاه داده و وزن‌های مدل داخل بستهٔ کامل `project-3-submission.zip` قرار دارند.
-> برای اجرای پیش‌بینی از یک کلون تازه، پوشهٔ `models` داخل `project-3` در آرشیو را به ریشهٔ مخزن کپی کن.
-> فایل `checksums.sha256` مربوط به محتویات بستهٔ کامل تحویل است.
+> کتابخانه‌ها از `requirements.txt` نصب می‌شوند. برای اجرای نسخهٔ مخزن، پوشهٔ `models` از بستهٔ کامل در ریشهٔ پروژه قرار می‌گیرد. پیش‌بینی با فایل‌های محلی و روی `CPU` اجرا می‌شود و به بازآموزی نیاز ندارد.
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 python predict.py --text "کیفیتش خوبه ولی قیمتش بالاست." --device cpu
 python predict.py --demo --device cpu
 ```
 
-[Complete submission and model files](https://github.com/emadnemati/digikala-review-analysis/releases)
+> ## فایل‌ها
+>
+> | مسیر | کاربرد |
+> | --- | --- |
+> | `predict.py` | پیش‌بینی با مدل پایه و مدل منتخب |
+> | `normalize_persian.py` | نرمال‌سازی مشترک متن |
+> | `models/` | مدل‌ها، توکنایزر و تنظیمات پیش‌بینی |
+> | `notebooks/` | چهار نوت‌بوک تحلیل، مدل پایه، ترنسفورمر و نیمه‌نظارتی |
+> | `data/` | فایل‌های تقسیم داده و `split_manifest.json` |
+> | `reports/` | گزارش، نمودارها، معیارها و نمونه‌های خطا |
+> | `artifacts/` | وزن‌های میانی آزمایش‌ها در بستهٔ کامل |
+>
+> نوت‌بوک‌ها به ترتیب شماره در `Google Colab` اجرا شده‌اند. دو نوت‌بوک اول از `CPU` و دو نوت‌بوک بعدی از `T4 GPU` استفاده کرده‌اند. مسیرهای آن‌ها به پوشهٔ `digikala-project-3` در `Google Drive` وابسته‌اند. جزئیات بازتولید در پیوست ب گزارش آمده است.
 
-[Public dataset](https://huggingface.co/datasets/RadeAI/Digikala_comments_products/tree/main)
+[بستهٔ کامل داده و مدل‌ها](https://github.com/emadnemati/digikala-review-analysis/releases/latest)
 
-[ParsBERT model card and license](https://huggingface.co/HooshvareLab/bert-fa-base-uncased)
+[دادهٔ عمومی](https://huggingface.co/datasets/RadeAI/Digikala_comments_products/tree/main) · [مدل ParsBERT](https://huggingface.co/HooshvareLab/bert-fa-base-uncased)

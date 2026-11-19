@@ -327,5 +327,20 @@
         "artifact": "tfidf_rating_band.joblib"
       }
     }
+  },
+  "documentation_revision": {
+    "version": "1.1.0",
+    "revised_at": "2026-11-20T00:30:41+03:30",
+    "reference_structure": "IncompleteReport.pdf (supplied table of contents)",
+    "reviewed_error_cases": 32,
+    "report_pdf": "reports/final_report.pdf",
+    "document_sha256": {
+      "README.md": "2a770fd70dc5b08c8ce5dff2b96a0b979c67a01d0aa74386a7855215a1e4498e",
+      "reports/final_report.md": "49273bc197e308a70606cfa731287f04e820943249f2cba0aeb87004b5c9a070",
+      "reports/final_report.pdf": "88e6483029126c221cb78f22d59cdfbc396a401851912815600f75e0abd2c53b",
+      "reports/error_analysis.md": "371087d1a20a9974934dd858e71c36425695fe641909210c5ef4e6b163f796d5"
+    },
+    "packaging_preserves_reviewed_documents": true,
+    "model_or_training_changes": false
   }
 }

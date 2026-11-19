@@ -79,29 +79,6 @@ def sha256_file(path):
         return hashlib.file_digest(file, "sha256").hexdigest()
 
 
-def code(value):
-    return chr(96) + str(value) + chr(96)
-
-
-def markdown_table(headers, rows):
-    def render(row):
-        values = [
-            str(value).replace("|", r"\|").replace("\n", " ") for value in row
-        ]
-        return "| " + " | ".join(values) + " |"
-
-    return "\n".join([
-        render(headers), render(["---"] * len(headers)),
-        *[render(row) for row in rows],
-    ])
-
-
-def persian_box(text):
-    return "\n".join(
-        "> " + line if line else ">" for line in text.strip().splitlines()
-    )
-
-
 def collect_notebooks(root, release):
     folders = [
         root / "notebooks",
@@ -245,268 +222,21 @@ def draw_comparison(results, destination):
     plt.close(fig)
 
 
-def build_reports(release, results, overlap, schema, error_count):
+def load_report_metadata(release):
+    """Read measured results without regenerating the reviewed documents."""
     reports = release / "reports"
-    selected = results["ParsBERT 3M"]
-    pseudo = read_json(reports / "pseudo_labeling_1200k.json")
-    audit = read_json(reports / "pseudo_label_accuracy_1200k.json")
-    comparison = read_json(reports / "semi_supervised_test_comparison.json")
-    demo = read_json(reports / "offline_demo.json")
-    baseline_training = read_json(reports / "baseline_training.json")
-    configuration = read_json(release / "models" / "inference_config.json")
-
-    comparison_rows = []
-    for name, result in results.items():
-        for target, record in result["heads"].items():
-            metrics = record["metrics"]
-            comparison_rows.append([
-                code(name),
-                "پیشنهاد خرید" if target == "recommendation_status" else "بازهٔ امتیاز",
-                f"{metrics['accuracy']:.4f}",
-                f"{metrics['macro avg']['precision']:.4f}",
-                f"{metrics['macro avg']['recall']:.4f}",
-                f"{metrics['macro avg']['f1-score']:.4f}",
-                f"{record['balanced_accuracy']:.4f}",
-            ])
-    score_table = markdown_table(
-        ["مدل", "هدف", code("Accuracy"), code("Macro Precision"),
-         code("Macro Recall"), code("Macro F1"), code("Balanced Accuracy")],
-        comparison_rows,
+    documents = [
+        release / "README.md", reports / "final_report.md",
+        reports / "final_report.pdf", reports / "error_analysis.md",
+    ]
+    missing = [str(path) for path in documents if not path.is_file()]
+    if missing:
+        raise FileNotFoundError("Reviewed documents missing: " + ", ".join(missing))
+    return (
+        read_json(reports / "baseline_training.json"),
+        read_json(reports / "semi_supervised_test_comparison.json"),
+        read_json(reports / "pseudo_label_accuracy_1200k.json"),
     )
-    class_rows = []
-    for target, record in selected["heads"].items():
-        for label in record["confusion_matrix"]["class_order"]:
-            values = record["metrics"][label]
-            class_rows.append([
-                "پیشنهاد خرید" if target == "recommendation_status" else "بازهٔ امتیاز",
-                code(label), f"{values['precision']:.4f}",
-                f"{values['recall']:.4f}", f"{values['f1-score']:.4f}",
-                f"{int(values['support']):,}",
-            ])
-    class_table = markdown_table(
-        ["هدف", "کلاس", code("Precision"), code("Recall"), code("F1"), "تعداد"],
-        class_rows,
-    )
-    pseudo_table = markdown_table(
-        ["کلاس پیش‌بینی‌شده", "پذیرفته‌شده", "درست", "دقت"],
-        [[code(label), f"{values['accepted']:,}", f"{values['correct']:,}",
-          f"{values['precision']:.2%}" if values["precision"] is not None else "—"]
-         for label, values in audit["by_predicted_class"].items()],
-    )
-    schema_table = markdown_table(
-        ["ستون", "نوع استنباط‌شده با بررسی کل فایل"],
-        [[code(row["column"]), code(row["inferred_type"])]
-         for _, row in schema.iterrows()],
-    )
-    rec_change = comparison["heads"]["recommendation_status"]["macro_f1"]["change"]
-    band_change = comparison["heads"]["rating_band"]["macro_f1"]["change"]
-    ordinal_change = comparison["heads"]["rating_band"]["ordinal_distance"]["change"]
-    distance = selected["heads"]["rating_band"]["mean_absolute_ordinal_distance"]
-    baseline_rec = results["TF-IDF"]["heads"]["recommendation_status"]["metrics"]["macro avg"]["f1-score"]
-    selected_rec = selected["heads"]["recommendation_status"]["metrics"]["macro avg"]["f1-score"]
-
-    report = f"""
-# گزارش تحلیل نظرهای دیجی‌کالا
-
-## مسئله و داده
-
-ورودی مدل فقط متن نظر در ستون {code('body')} است. دو خروجی داریم، پیشنهاد خرید در سه کلاس
-{code('recommended')}، {code('not_recommended')} و {code('no_idea')}،
-و بازهٔ امتیاز در سه کلاس {code('low')}، {code('medium')} و {code('high')}.
-
-فایل نظرات ۶٬۱۵۶٬۲۸۹ رکورد و ۱۵ ستون دارد. شمارش با خوانندهٔ {code('CSV')} انجام شد.
-۳۳۱٬۵۹۹ محصول و ۲۹٬۲۱۳ کد فروشندهٔ غیرخالی مشاهده شد.
-این شمارش‌ها از خروجی بررسی کامل داده در نوت‌بوک اول ثبت شده‌اند.
-اندازه و هش فایل منبع در {code('split_manifest.json')} ثبت شده‌اند.
-
-{schema_table}
-
-## یافته‌های تحلیل اولیه
-
-- برچسب پیشنهاد خرید برای ۸۹۴٬۴۲۶ رکورد، معادل ۱۴٫۵۳٪، غایب است.
-- این برچسب در ۱۰۰٪ نظرات غیرخریداران و ۱۰٫۱۲٪ نظرات خریداران غایب است.
-- از نظرهای دارای برچسب، ۷۹٫۱۱٪ خرید را پیشنهاد می‌کنند. بازهٔ امتیاز بالا ۶۵٫۰۵٪ امتیازهای معتبر را دارد.
-- میانهٔ طول متن ۶ واژه و صدک ۹۵ آن ۳۲ واژه است. ۲۷٫۲۲٪ متن‌های غیرخالی حداکثر ۳ واژه دارند.
-- میانهٔ تعداد نظر هر محصول ۴ است. یک درصد از محصولات ۱۰٫۸۵٪ نظرات را دارند.
-- ۳٬۲۲۹ ردیف اضافه با شناسهٔ تکراری مشاهده شد. ۲۴۱ شناسه چند متن متفاوت داشتند.
-- یک امتیاز خارج از دامنه با مقدار ۲۵۰۰ مشاهده شد. دامنهٔ معتبر پروژه صفر تا پنج است.
-
-جدول‌های مقادیر غایب، توزیع‌ها و چهار نمودار در نوت‌بوک اول قرار دارند.
-این یافته‌ها مبنای تقسیم محصولی، وزن‌دهی کلاس‌ها، گزارش {code('Macro F1')} و بررسی طول توکن‌ها بودند.
-
-## پاک‌سازی و تقسیم
-
-متن‌های خالی و مقدار متنی {code('nan')} کنار گذاشته شدند.
-گروه شناسه‌های دارای چند متن متفاوت حذف شدند.
-شناسه‌های تکراری با یک متن ادغام شدند و هدف دارای برچسب‌های معتبر متعارض ماسک شد.
-پس از پاک‌سازی ۶٬۱۵۲٬۱۸۲ رکورد باقی ماند.
-
-امتیاز صفر تا کمتر از ۲٫۵ در بازهٔ پایین، ۲٫۵ تا کمتر از ۴ در بازهٔ متوسط
-و ۴ تا ۵ در بازهٔ بالا قرار گرفت. کد ترتیبی آن‌ها به‌ترتیب صفر، یک و دو است.
-
-تقسیم با بذر {code('2026')} و هش شناسهٔ محصول انجام شد.
-آموزش ۴٬۳۰۷٬۳۱۰، اعتبارسنجی ۹۲۵٬۱۹۷ و آزمون ۹۱۹٬۶۷۵ رکورد دارد.
-هر محصول فقط به یک مجموعه تخصیص یافت.
-
-در هر کلاس پیشنهاد خریدِ آموزش، ۲۰٪ با گرد کردن رو به پایین و هش ثابت انتخاب شدند.
-بذر ماسک {code('digikala-semi-supervised-v1')} است.
-۷۳۶٬۵۴۰ رکورد به مخزن مصنوعی منتقل شدند و فایل آن‌ها فقط {code('id')} و {code('body')} دارد.
-
-فایل آموزش نظارت‌شده ۳٬۵۷۰٬۷۶۵ رکورد دارد.
-ردیف دارای یک هدف معتبر برای همان هدف استفاده می‌شود.
-نظرهای طبیعیِ بدون برچسب پیشنهاد خرید، در صورت داشتن امتیاز معتبر، در آموزش سر امتیاز هم حضور دارند.
-
-## مدل‌ها و آموزش
-
-مدل پایه {code('TF-IDF')} واژه‌ای با ۵۵٬۳۶۵ ویژگی و رگرسیون لجستیک است.
-واژگان و وزن کلاس‌ها از آموزش به دست آمدند.
-هر دو مدل پایه در سقف ۶۰ تکرار متوقف شدند و هشدار همگرایی ثبت شد.
-نتایج جدول مربوط به همین اجرای ذخیره‌شده است.
-
-مدل عمیق {code('HooshvareLab/bert-fa-base-uncased')} با مجوز {code('Apache-2.0')} است.
-مدل دوسر ۱۶۲٬۲۵۵٬۳۶۶ پارامتر دارد و ۷٬۰۹۲٬۴۸۶ پارامتر آن آموزش‌پذیر بود.
-بلوک آخر انکودر و دو سر پیش‌بینی تنظیم شدند.
-
-طول ورودی ۹۶ توکن و اندازهٔ دسته ۶۴ است.
-در نمونهٔ ثابت ۲۰ هزارنفری آموزش، ۰٫۴۳٪ متن‌ها در این طول بریده می‌شوند.
-این نرخ برای کلاس {code('not_recommended')} برابر ۰٫۹۹٪ بود.
-نرخ یادگیری انکودر {code('2e-5')} و سرها {code('2e-4')} است.
-وزن‌های کلاسِ مدل اولیه در ادامهٔ آموزش هم استفاده شدند.
-
-مدل اولیه سه دور روی ۱۲۰ هزار نظر آموزش دید. سپس یک دور روی ۱٫۲ میلیون نظر
-و یک دور دیگر روی ۳ میلیون نظر ادامه یافت.
-زیرمجموعه‌ها با هش ثابت از آموزش نظارت‌شده انتخاب شدند.
-نمودار آموزش اولیه و گزارش مراحل در پوشهٔ گزارش‌ها قرار دارند.
-
-انتخاب چک‌پوینت بر اساس میانگین {code('Macro F1')} دو هدف روی ۲۰ هزار نظر ثابت اعتبارسنجی انجام شد.
-مدل ۳ میلیون‌تایی روی کل اعتبارسنجی نیز ارزیابی شد و سپس ارزیابی آزمون انجام گرفت.
-
-## نتایج آزمون
-
-همهٔ مدل‌های زیر روی همان مجموعهٔ آزمون سنجیده شده‌اند.
-برای پیشنهاد خرید ۷۸۵٬۷۷۶ و برای بازهٔ امتیاز ۹۱۹٬۶۷۳ هدف معتبر وجود دارد.
-
-{score_table}
-
-معیارهای هر کلاس برای مدل منتخب:
-
-{class_table}
-
-خطای میانگین فاصلهٔ ترتیبی مدل منتخب برابر {code(f'{distance:.4f}')} است.
-ماتریس‌های درهم‌ریختگی در گزارش‌های آزمون {code('JSON')} ذخیره شده‌اند.
-
-## آزمایش نیمه‌نظارتی
-
-مدل والد این آزمایش، مدل نظارت‌شدهٔ ۱٫۲ میلیون‌تایی است.
-از {pseudo['scored_rows']:,} نمونهٔ مخزن مصنوعی، {pseudo['accepted_rows']:,} نمونه،
-معادل {pseudo['accepted_pct']:.2f}٪، از آستانهٔ ثابت {code('0.90')} گذشتند.
-
-مدل دوم از چک‌پوینت والد شروع کرد و یک دور روی همان ۱٫۲ میلیون نظر نظارت‌شده
-به‌علاوهٔ نمونه‌های پذیرفته‌شده آموزش دید.
-شبه‌برچسب‌ها فقط در خطای پیشنهاد خرید سهم داشتند.
-
-دقت برچسب‌های پذیرفته‌شده، پس از آموزش مدل دوم، برابر {audit['accuracy']:.2%} محاسبه شد.
-
-{pseudo_table}
-
-تغییر {code('Macro F1')} آزمون برای پیشنهاد خرید {code(f'{rec_change:+.4f}')}
-و برای بازهٔ امتیاز {code(f'{band_change:+.4f}')} بود.
-تغییر خطای ترتیبی {code(f'{ordinal_change:+.4f}')} است.
-بهبود نمره کوچک بود و خطای ترتیبی افزایش یافت.
-تفاوت نتیجه شامل ادامهٔ آموزش و افزودن شبه‌برچسب‌هاست.
-
-## محدودیت‌ها و تفسیر
-
-در آزمون، {overlap['test_rows_with_text_in_selected_train']:,} ردیف،
-معادل {overlap['test_overlap_pct']:.2f}٪، متنی عیناً یکسان با زیرمجموعهٔ آموزش سه‌میلیونی دارند.
-نتیجهٔ آزمون، عملکرد روی محصول‌های جداشده در حضور این هم‌پوشانی متنی را توصیف می‌کند.
-
-متن‌های عمومی مثل «خوب بود» با برچسب‌ها و امتیازهای متفاوت ثبت شده‌اند.
-بعضی متن‌های مثبت نیز امتیاز صفر دارند. امتیاز صفر طبق تعریف پروژه در بازهٔ پایین حفظ شد.
-کلاس بی‌نظر و امتیاز متوسط همچنان خطای بیشتری دارند.
-
-## پیش‌بینی آفلاین
-
-مدل کامل، توکنایزر، نرمال‌سازی و مدل‌های پایه داخل بسته ذخیره شده‌اند.
-اجرای چهار مثال کوتاه، مبهم، منفی و ترکیبی با بارگذاری آفلاین روی {code('CPU')} کولب گذشت.
-برای هر هدف، برچسب و احتمال کلاس‌ها برگردانده می‌شود.
-
-زمان چهار پیش‌بینی در همان اجرا به‌ترتیب
-{', '.join(str(item['latency_ms']) for item in demo)} میلی‌ثانیه بود.
-این اندازه‌گیری چهارنمونه‌ای مربوط به محیط کولب است.
-توضیح مدل پایه سهم واقعی واژه‌ها در اختلاف امتیاز کلاس منتخب و کلاس دوم را نشان می‌دهد.
-
-## توضیح ساده برای ارائه
-
-مدل قرار است با خواندن متن نظر حدس بزند کاربر خرید را پیشنهاد می‌کند یا نه و چه بازهٔ امتیازی داده است.
-ابتدا داده‌ها را بررسی کردیم و تکرارهای مسئله‌دار را پاک کردیم.
-نظرهای هر محصول را در یک مجموعه نگه داشتیم تا مدل روی محصول‌های جداشده سنجیده شود.
-
-اول مدل پایه را ساختیم و بعد مدل فارسی ازپیش‌آموزش‌دیده را روی نظرهای دیجی‌کالا تنظیم کردیم.
-نمرهٔ پیشنهاد خرید مدل پایه {code(f'{baseline_rec:.4f}')} و مدل منتخب {code(f'{selected_rec:.4f}')} شد.
-
-در آزمایش نیمه‌نظارتی، جواب بخشی از دادهٔ آموزش را موقتاً کنار گذاشتیم.
-مدل برای این بخش حدس زد و حدس‌های با احتمال حداقل ۹۰٪ را به آموزش اضافه کردیم.
-بهبود نهایی این آزمایش کوچک بود. مدل منتخب برای تحویل، مدل سه‌میلیونی است.
-"""
-    error_text = (reports / "error_analysis.md").read_text(encoding="utf-8")
-    error_text = error_text.replace(
-        "> # تحلیل ۲۴ خطای مدل منتخب", "> # تحلیل ۳۲ خطای مدل منتخب", 1
-    )
-    (reports / "error_analysis.md").write_text(error_text, encoding="utf-8")
-    unquoted = "\n".join(
-        line[2:] if line.startswith("> ") else "" if line == ">" else line
-        for line in error_text.splitlines()
-    )
-    report += "\n\n" + unquoted
-    (reports / "final_report.md").write_text(
-        "![Test macro F1](figures/test_macro_f1.png)\n\n"
-        + persian_box(report) + "\n", encoding="utf-8"
-    )
-
-    readme = f"""
-# تحلیل نظرهای دیجی‌کالا
-
-این پروژه فقط از متن نظر، پیشنهاد خرید و بازهٔ امتیاز را پیش‌بینی می‌کند.
-مدل منتخب {code('ParsBERT')} سه‌میلیونی است. اسکریپت هر دو مدل پایه و منتخب را اجرا می‌کند.
-
-ابتدا کتابخانه‌های {code('requirements.txt')} را نصب کن.
-سپس {code('predict.py')} را با متن نظر اجرا کن.
-گزینهٔ {code('--demo')} چهار مثال آماده را اجرا می‌کند.
-مدل از فایل‌های داخل پوشهٔ {code('models')} بارگذاری می‌شود.
-نسخهٔ پایتون محیط ثبت‌شده {code(configuration['python_version'])} است.
-
-پوشهٔ {code('reports')} گزارش نهایی، تحلیل {error_count} خطا، معیارها، نمودار و مثال‌های اجرا را دارد.
-پوشهٔ {code('data')} پنج فایل تقسیم و {code('split_manifest.json')} را دارد.
-پوشهٔ {code('artifacts')} چک‌پوینت‌های آزمایش‌ها را نگه می‌دارد.
-
-نوت‌بوک‌ها به این ترتیب هستند:
-
-۱. {code(NOTEBOOKS[0])} برای تحلیل و آماده‌سازی، با {code('CPU')}
-۲. {code(NOTEBOOKS[1])} برای مدل پایه، با {code('CPU')}
-۳. {code(NOTEBOOKS[2])} برای تنظیم مدل، با {code('T4 GPU')}
-۴. {code(NOTEBOOKS[3])} برای نیمه‌نظارتی، ارزیابی و تحویل، با {code('T4 GPU')}
-
-نوت‌بوک‌ها برای مسیر موقت {code('/content')} و پوشهٔ {code('digikala-project-3')} در
-{code('Google Drive')} نوشته شده‌اند.
-برای بازتولید در کولب، محتوای بسته را در همین پوشهٔ درایو قرار بده و کتابخانه‌های ثبت‌شده را نصب کن.
-
-نوت‌بوک‌ها خروجی‌های اجراهای تعاملی این پروژه را دارند.
-اجرای یکپارچهٔ هر چهار نوت‌بوک از صفر در این مرحله بررسی نشده است.
-آزمون تأییدشدهٔ بسته، اجرای آفلاین اسکریپت روی چهار مثال با {code('CPU')} است.
-"""
-    fence = chr(96) * 3
-    commands = (
-        f"\n\n{fence}bash\n"
-        "pip install -r requirements.txt\n"
-        'python predict.py --text "کیفیتش خوبه ولی قیمتش بالاست." --device cpu\n'
-        "python predict.py --demo --device cpu\n"
-        f"{fence}\n"
-    )
-    (release / "README.md").write_text(
-        persian_box(readme) + commands, encoding="utf-8"
-    )
-    return baseline_training, comparison, audit
 
 
 def main():
@@ -593,13 +323,12 @@ def main():
     for name in ["digikala_inputs.tar.gz", "digikala_project.duckdb"]:
         shutil.copyfile(root / name, release / name)
     shutil.copytree(reports, release / "reports", dirs_exist_ok=True)
+    shutil.copyfile(root / "README.md", release / "README.md")
 
     inventory = collect_notebooks(root, release)
     figures = release / "reports" / "figures"
     draw_comparison(results, figures / "test_macro_f1.png")
-    baseline_training, comparison, audit = build_reports(
-        release, results, overlap, schema, len(errors)
-    )
+    baseline_training, comparison, audit = load_report_metadata(release)
 
     print("Checking the standalone offline --text command on CPU...", flush=True)
     process = subprocess.run(
@@ -626,7 +355,7 @@ def main():
 
     required = [
         *existing_assets, "README.md", "finalize_digikala_project.py", *MODULES,
-        "reports/final_report.md", "reports/error_analysis.md",
+        "reports/final_report.md", "reports/final_report.pdf", "reports/error_analysis.md",
         "reports/offline_demo.json", "data/split_manifest.json",
         *[f"notebooks/{name}" for name in NOTEBOOKS],
         *[f"data/{name}" for name in SPLIT_FILES],
