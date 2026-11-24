@@ -330,15 +330,15 @@
   },
   "documentation_revision": {
     "version": "1.1.0",
-    "revised_at": "2026-11-24T11:31:56+03:30",
+    "revised_at": "2026-11-24T12:11:57+03:30",
     "reference_structure": "IncompleteReport.pdf (supplied table of contents)",
     "reviewed_error_cases": 32,
     "report_pdf": "reports/final_report.pdf",
     "document_sha256": {
       "README.md": "d2225b649beace726debec8f7a2d228e8a8d80df7e2d941ef8a4b61b1d30315d",
-      "reports/final_report.md": "1628681331dfa3dbdbbf1fa057aa19f0e1fb7fc9e2460ce58af9614132becc85",
-      "reports/error_analysis.md": "28cba2100338050880ddf41186abe89087684b1fae368047fbb0da34d2311e34",
-      "reports/final_report.pdf": "f551672834f1695459dc4ae25704091e7edc3b71aae61daf25aa24bf3655e46e"
+      "reports/final_report.md": "cefd92c60289db24ee71323576baefafa285082b413410a0113711a828278eeb",
+      "reports/error_analysis.md": "45b019a8d380f3a19a26571600559e64f4cc836ff4e32743aad8bad7f4577725",
+      "reports/final_report.pdf": "303354da907b1bdd3ef721b001a18d80ee6afc20b6bb2b1e5206472c90711bb7"
     },
     "packaging_preserves_reviewed_documents": true,
     "model_or_training_changes": false,
