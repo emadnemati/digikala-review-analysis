@@ -330,15 +330,15 @@
   },
   "documentation_revision": {
     "version": "1.1.0",
-    "revised_at": "2026-11-24T14:32:26+03:30",
+    "revised_at": "2026-11-24T14:42:25+03:30",
     "reference_structure": "IncompleteReport.pdf (supplied table of contents)",
     "reviewed_error_cases": 32,
     "report_pdf": "reports/final_report.pdf",
     "document_sha256": {
       "README.md": "d2225b649beace726debec8f7a2d228e8a8d80df7e2d941ef8a4b61b1d30315d",
-      "reports/final_report.md": "d158b335b1e2fc97d71bd94fe7217ecf9bc25695f6c0d5e644d8d6f320ac4219",
+      "reports/final_report.md": "615645792e392de6569bbd94ba8cf65e7b8ff365f951d83aae82e248f1fff2c7",
       "reports/error_analysis.md": "45b019a8d380f3a19a26571600559e64f4cc836ff4e32743aad8bad7f4577725",
-      "reports/final_report.pdf": "f3cf2023da7a341078030d1986a4b8fe6e87b3835de617ed477641a80ae27f0a"
+      "reports/final_report.pdf": "7c1448842cab0ad259d917cae69d7df7fd6596c80acc020a8a803b59700b1d48"
     },
     "packaging_preserves_reviewed_documents": true,
     "model_or_training_changes": false,
@@ -349,6 +349,6 @@
       "numerical_results_and_commands": "preserved",
       "delivery": "repository changes only"
     },
-    "report_pages": 12
+    "report_pages": 13
   }
 }
